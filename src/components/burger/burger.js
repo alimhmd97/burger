@@ -9,8 +9,7 @@ const Burger = (props) => {
     })
     .reduce((arr, el) => {
       return arr.concat(el);
-    });
-  console.log(typeof transformedIngredient);
+    }, []);
   return (
     <div className={styles.Burger}>
       <BurgerIngredient type='bread-top' />
