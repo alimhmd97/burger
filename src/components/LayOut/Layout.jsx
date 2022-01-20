@@ -3,7 +3,7 @@ import styles from "./LayOut.module.css";
 const Layout = (props) => {
   return (
     <Aux>
-      <div className={styles.m}>nana</div>
+      <div className={styles.m}></div>
       <main>{props.children}</main>
     </Aux>
   );

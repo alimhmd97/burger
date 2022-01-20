@@ -9,24 +9,29 @@ const controls = [
 const BuildControls = (props) => {
   return (
     <div className={styles.BuildControls}>
-      <p>
+      <p style={{ margin: "0 auto" }}>
         {" "}
         total price: <strong>{props.price.toFixed(2)}</strong>{" "}
       </p>
-
       {controls.map((ctrl) => {
         return (
           <BuildControl
             added={() => {
-              props.add(ctrl.type);
+              props.addIngredients(ctrl.type);
             }}
             key={ctrl.label}
             label={ctrl.label}
-            remove={() => props.remove(ctrl.type)}
+            remove={() => props.removeIngredients(ctrl.type)}
             disabled={props.disabled[ctrl.type]}
           />
         );
-      })}
+      })}{" "}
+      <button
+        className={styles.OrderButton}
+        disabled={!props.purchasable}
+        onClick={props.parchasingHandler}>
+        Order Now
+      </button>
     </div>
   );
 };
