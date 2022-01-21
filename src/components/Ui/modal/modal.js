@@ -5,7 +5,7 @@ import Aux from "../../HOC/Auxx";
 function modal(props) {
   return (
     <Aux>
-      <BackDrop show={props.show} cancelPurchase={props.cancelParchase} />
+      <BackDrop show={props.show} cancelPurchase={props.cancelPurchase} />
       <div
         className={styles.Modal}
         style={{

@@ -14,7 +14,7 @@ const BurgerBuilder = (props) => {
     },
     totalPrice: 0,
     purchasable: false,
-    parchase: false,
+    purchase: false,
   });
   const ingredientPrice = {
     salad: 0.5,
@@ -22,10 +22,13 @@ const BurgerBuilder = (props) => {
     meat: 1.3,
     bacon: 0.7,
   };
-  const parchaseCancelHandler = () => {
-    setState((state) => ({ ...state, parchase: false }));
+  const PurchaseContinueHandler = () => {
+    alert("continue");
   };
-  const updateParchaseState = (ingredients) => {
+  const PurchaseCancelHandler = () => {
+    setState((state) => ({ ...state, purchase: false }));
+  };
+  const updatePurchaseState = (ingredients) => {
     let sumOfIngredientsComponents = 0;
     for (let key in ingredients) {
       sumOfIngredientsComponents += ingredients[key];
@@ -54,7 +57,7 @@ const BurgerBuilder = (props) => {
       totalPrice: newPrice,
       ingredients: updatedIngredient,
     }));
-    updateParchaseState(updatedIngredient);
+    updatePurchaseState(updatedIngredient);
   };
 
   const removeIngredientHandler = (type) => {
@@ -70,15 +73,20 @@ const BurgerBuilder = (props) => {
       totalPrice: newPrice,
       ingredients: updatedIngredient,
     }));
-    updateParchaseState(updatedIngredient);
+    updatePurchaseState(updatedIngredient);
   };
-  const addParchaseHandler = () => {
-    setState((state) => ({ ...state, parchase: true }));
+  const addPurchaseHandler = () => {
+    setState((state) => ({ ...state, purchase: true }));
   };
   return (
     <Aux>
-      <Modal show={state.parchase} cancelParchase={parchaseCancelHandler}>
-        <OrderSummary ingredients={state.ingredients} />
+      <Modal show={state.purchase} cancelPurchase={PurchaseCancelHandler}>
+        <OrderSummary
+          ingredients={state.ingredients}
+          cancelPurchase={PurchaseCancelHandler}
+          continuePurchase={PurchaseContinueHandler}
+          price={state.totalPrice.toFixed(2)}
+        />
       </Modal>
       <Burger ingredients={state.ingredients} />
       <BuildControls
@@ -87,7 +95,7 @@ const BurgerBuilder = (props) => {
         disabled={disableInfo}
         price={state.totalPrice}
         purchasable={state.purchasable}
-        parchasingHandler={addParchaseHandler}
+        parchasingHandler={addPurchaseHandler}
       />
       <main>{props.children}</main>
     </Aux>
