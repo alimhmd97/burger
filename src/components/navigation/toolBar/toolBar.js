@@ -1,14 +1,20 @@
 import styles from "./toolBar.module.css";
 import Logo from "../../Logo/logo";
 import NavigationItems from "../navigationItems/navigationItems";
-function toolBar() {
+function toolBar({ openSideDrawer }) {
   return (
     <header className={styles.ToolBar}>
-      <div>MENU</div>
+      <div className={styles.DrawerToggle} onClick={openSideDrawer}>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div className={styles.Logo}>
+        {" "}
+        <Logo />
+      </div>
 
-      <Logo />
-
-      <nav>
+      <nav className={styles.DeskTopOnly}>
         <NavigationItems />
       </nav>
     </header>

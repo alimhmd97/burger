@@ -1,10 +1,8 @@
 import styels from "./backDrop.module.css";
-const backDrop = ({ show, cancelPurchase }) => {
+const backDrop = ({ show, clicked }) => {
   return (
     <>
-      {show ? (
-        <div className={styels.BackDrop} onClick={cancelPurchase}></div>
-      ) : null}{" "}
+      {show ? <div className={styels.BackDrop} onClick={clicked}></div> : null}{" "}
     </>
   );
 };
