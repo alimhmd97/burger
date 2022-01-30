@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import BuildControls from "../../components/burger/buildControls/buildControls";
 import Modal from "../../components/Ui/modal/modal";
 import Burger from "../../components/burger/burger";
@@ -78,8 +78,8 @@ const BurgerBuilder = (props) => {
   const addPurchaseHandler = () => {
     setState((state) => ({ ...state, purchase: true }));
   };
-  return (
-    <Aux>
+  const x = useMemo(
+    () => (
       <Modal show={state.purchase} cancelPurchase={PurchaseCancelHandler}>
         <OrderSummary
           ingredients={state.ingredients}
@@ -88,6 +88,12 @@ const BurgerBuilder = (props) => {
           price={state.totalPrice.toFixed(2)}
         />
       </Modal>
+    ),
+    [state.purchase]
+  );
+  return (
+    <Aux>
+      {x}
       <Burger ingredients={state.ingredients} />
       <BuildControls
         addIngredients={addIngredientHandler}
