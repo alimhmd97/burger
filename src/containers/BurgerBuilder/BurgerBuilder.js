@@ -4,6 +4,8 @@ import Modal from "../../components/Ui/modal/modal";
 import Burger from "../../components/burger/burger";
 import OrderSummary from "../../components/burger/order summary/orderSummary";
 import Aux from "../../components/HOC/Auxx";
+import axios from "../../axios-orders";
+import Spinner from "../../components/Ui/spinner/spinner";
 const BurgerBuilder = (props) => {
   const [state, setState] = useState({
     ingredients: {
@@ -15,6 +17,7 @@ const BurgerBuilder = (props) => {
     totalPrice: 0,
     purchasable: false,
     purchase: false,
+    loading: false,
   });
   const ingredientPrice = {
     salad: 0.5,
@@ -23,7 +26,22 @@ const BurgerBuilder = (props) => {
     bacon: 0.7,
   };
   const PurchaseContinueHandler = () => {
-    alert("continue");
+    setState((state) => ({ ...state, loading: true }));
+    const order = {
+      ingredients: state.ingredients,
+      name: "Ali Mohamed",
+      adress: {
+        street: "testStreet",
+        zipCode: "54512",
+        country: "Egypt",
+      },
+      email: "aliiimhmddd99@gmail.com",
+      delivaryMethod: "fastest",
+    };
+    axios
+      .post("/orders.json", order)
+      .then((res) => setState((state) => ({ ...state, loading: false })))
+      .catch((err) => setState((state) => ({ ...state, loading: true })));
   };
   const PurchaseCancelHandler = () => {
     setState((state) => ({ ...state, purchase: false }));
@@ -78,7 +96,7 @@ const BurgerBuilder = (props) => {
   const addPurchaseHandler = () => {
     setState((state) => ({ ...state, purchase: true }));
   };
-  const x = useMemo(
+  const orderSummary = useMemo(
     () => (
       <Modal show={state.purchase} cancelPurchase={PurchaseCancelHandler}>
         <OrderSummary
@@ -89,11 +107,11 @@ const BurgerBuilder = (props) => {
         />
       </Modal>
     ),
-    [state.purchase]
+    [state.purchase, state.loading]
   );
   return (
     <Aux>
-      {x}
+      {state.loading ? <Spinner /> : orderSummary}
       <Burger ingredients={state.ingredients} />
       <BuildControls
         addIngredients={addIngredientHandler}
