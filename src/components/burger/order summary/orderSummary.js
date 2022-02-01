@@ -6,7 +6,7 @@ function OrderSummary({
   continuePurchase,
   price,
 }) {
-  console.log("lls");
+  console.log("ingridents", ingredients);
   const ingredientSummary = Object.keys(ingredients).map((igkey) => {
     return (
       <li key={igkey}>

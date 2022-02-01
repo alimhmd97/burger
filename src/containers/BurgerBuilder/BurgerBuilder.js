@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import BuildControls from "../../components/burger/buildControls/buildControls";
 import Modal from "../../components/Ui/modal/modal";
 import Burger from "../../components/burger/burger";
@@ -6,25 +6,33 @@ import OrderSummary from "../../components/burger/order summary/orderSummary";
 import Aux from "../../components/HOC/Auxx";
 import axios from "../../axios-orders";
 import Spinner from "../../components/Ui/spinner/spinner";
+
 const BurgerBuilder = (props) => {
   const [state, setState] = useState({
-    ingredients: {
-      salad: 0,
-      bacon: 0,
-      cheese: 0,
-      meat: 0,
-    },
+    ingredients: null,
     totalPrice: 0,
     purchasable: false,
     purchase: false,
     loading: false,
   });
+
+  //  const [{ ingredients, totalPrice }, setState] = useState({
+  //    ingredients: null,
+  //    totalPrice: 0,
+  //    purchasable: false,
+  //    purchase: false,
+  //    loading: false,
+  //  });
+
   const ingredientPrice = {
     salad: 0.5,
     cheese: 0.4,
     meat: 1.3,
     bacon: 0.7,
   };
+
+  // const purchaseContinueHandler = () => {
+
   const PurchaseContinueHandler = () => {
     setState((state) => ({ ...state, loading: true }));
     const order = {
@@ -43,9 +51,11 @@ const BurgerBuilder = (props) => {
       .then((res) => setState((state) => ({ ...state, loading: false })))
       .catch((err) => setState((state) => ({ ...state, loading: true })));
   };
+
   const PurchaseCancelHandler = () => {
     setState((state) => ({ ...state, purchase: false }));
   };
+
   const updatePurchaseState = (ingredients) => {
     let sumOfIngredientsComponents = 0;
     for (let key in ingredients) {
@@ -56,6 +66,7 @@ const BurgerBuilder = (props) => {
       purchasable: sumOfIngredientsComponents > 0,
     }));
   };
+
   let disableInfo = {
     ...state.ingredients,
   };
@@ -95,32 +106,55 @@ const BurgerBuilder = (props) => {
   };
   const addPurchaseHandler = () => {
     setState((state) => ({ ...state, purchase: true }));
+    console.log(state.purchase);
   };
-  const orderSummary = useMemo(
-    () => (
-      <Modal show={state.purchase} cancelPurchase={PurchaseCancelHandler}>
-        <OrderSummary
-          ingredients={state.ingredients}
-          cancelPurchase={PurchaseCancelHandler}
-          continuePurchase={PurchaseContinueHandler}
-          price={state.totalPrice.toFixed(2)}
-        />
-      </Modal>
-    ),
-    [state.purchase, state.loading]
+
+  useEffect(() => {
+    axios
+      .get("ingredients.json")
+      .then((res) => {
+        setState((state) => ({ ...state, ingredients: res.data }));
+        console.log(res.data);
+      })
+      .catch((err) => alert(err));
+  }, []);
+
+  let orderSummary = useMemo(
+    () =>
+      state.ingredients && (
+        <Modal show={state.purchase} cancelPurchase={PurchaseCancelHandler}>
+          <OrderSummary
+            ingredients={state.ingredients}
+            cancelPurchase={PurchaseCancelHandler}
+            continuePurchase={PurchaseContinueHandler}
+            price={state.totalPrice.toFixed(2)}
+          />
+        </Modal>
+      ),
+    [state.purchase]
   );
+  let burger = null;
+  if (state.ingredients) {
+    burger = (
+      <Aux>
+        <Modal></Modal> <Burger ingredients={state.ingredients} />
+        <BuildControls
+          addIngredients={addIngredientHandler}
+          removeIngredients={removeIngredientHandler}
+          disabled={disableInfo}
+          price={state.totalPrice}
+          purchasable={state.purchasable}
+          parchasingHandler={addPurchaseHandler}
+        />
+      </Aux>
+    );
+    console.log(state.ingredients);
+  }
+
   return (
     <Aux>
-      {state.loading ? <Spinner /> : orderSummary}
-      <Burger ingredients={state.ingredients} />
-      <BuildControls
-        addIngredients={addIngredientHandler}
-        removeIngredients={removeIngredientHandler}
-        disabled={disableInfo}
-        price={state.totalPrice}
-        purchasable={state.purchasable}
-        parchasingHandler={addPurchaseHandler}
-      />
+      {state.loading ? <Spinner /> : state.ingredients ? orderSummary : null}
+      {burger}
       <main>{props.children}</main>
     </Aux>
   );

@@ -1,11 +1,16 @@
 import Layout from "./components/LayOut/Layout";
 import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
 import "./App.css";
-import BuildControls from "./components/burger/buildControls/buildControls";
+import { CheckOut } from "./containers/checkOut/checkOut";
+import { render } from "react-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
   return (
     <Layout>
-      <BurgerBuilder></BurgerBuilder>
+      <Routes>
+        <Route path='' element={<BurgerBuilder />} />
+        <Route path='/checkout' element={CheckOut} />
+      </Routes>
     </Layout>
   );
 }
