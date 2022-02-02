@@ -1,8 +1,7 @@
 import Layout from "./components/LayOut/Layout";
 import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
 import "./App.css";
-import { CheckOut } from "./containers/checkOut/checkOut";
-// import { render } from "react-dom";
+import CheckOut from "./containers/checkOut/checkOut";
 import { Routes, Route } from "react-router-dom";
 function App() {
   return (

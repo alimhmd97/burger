@@ -1,20 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CheckOutSummary } from "../../components/checkOutSunmmary/checkOutSummary";
+import { withRouter } from "../../components/HOC/withRouter/withRouter";
 
-function CheckOut() {
-  const [{ ingredients }, setstate] = useState({
-    ingredients: {
-      salad: 1,
-      cheese: 1,
-      bacon: 1,
-      meat: 1,
-    },
-  });
+function CheckOut({ history }) {
+  const [ingredients, setingredients] = useState({});
+  useEffect(() => {
+    let query = window.location.search.slice(1).split("&");
+    let y = [];
+    query.map((elem) => {
+      y.push(elem.split("="));
+    });
+    // console.log(y);
+    const ingredient = {};
+    y.map((element) => {
+      ingredient[element[0]] = +element[1];
+    });
+    setingredients({ ...ingredient });
+  }, []);
+
+  const checkOutCanceledHandler = () => {
+    history.back();
+  };
+  const checkOutContinuedHandler = () => {
+    history.navigate("/checkout/contact-data");
+  };
+
   return (
     <div>
-      <CheckOutSummary ingredients={ingredients} />
+      <CheckOutSummary
+        checkOutContinued={checkOutContinuedHandler}
+        checkOutCanceled={checkOutCanceledHandler}
+        ingredients={ingredients}
+      />
     </div>
   );
 }
 
-export { CheckOut };
+export default withRouter(CheckOut);

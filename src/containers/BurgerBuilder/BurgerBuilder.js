@@ -8,7 +8,7 @@ import axios from "../../axios-orders";
 import Spinner from "../../components/Ui/spinner/spinner";
 import { withRouter } from "../../components/HOC/withRouter/withRouter";
 
-const BurgerBuilder = ({ children, navigate }) => {
+const BurgerBuilder = ({ children, history, match }) => {
   const [
     { ingredients, totalPrice, purchasable, purchase, loading },
     setState,
@@ -46,7 +46,17 @@ const BurgerBuilder = ({ children, navigate }) => {
     //   .post("/orders.json", order)
     //   .then((res) => setState((state) => ({ ...state, loading: false })))
     //   .catch((err) => setState((state) => ({ ...state, loading: true })));
-    navigate("/checkout");
+    const queryParams = [];
+    for (let i in ingredients) {
+      queryParams.push(
+        encodeURIComponent(i) + "=" + encodeURIComponent(ingredients[i])
+      );
+    }
+
+    const queryString = queryParams.join("&");
+    history.navigate(`/checkout?${queryString}`);
+
+    // match.params(queryString)
   };
 
   const PurchaseCancelHandler = () => {

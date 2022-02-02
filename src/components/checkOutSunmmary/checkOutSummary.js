@@ -1,18 +1,18 @@
 import Burger from "../burger/burger";
 import Button from "../Ui/button/button";
 import styels from "./checkOutSummary.module.css";
-function CheckOutSummary({ ingredients }) {
+function CheckOutSummary({ ingredients, checkOutContinued, checkOutCanceled }) {
   return (
     <div className={styels.CheckOutSummary}>
       <h1>we hope it tastes</h1>
-      <div style={{ width: "300px", margin: " auto" }}>
+      <div style={{ margin: " auto" }}>
         {" "}
         <Burger ingredients={ingredients} />
       </div>
-      <Button btnType='Danger' Clicked>
+      <Button btnType='Danger' clicked={checkOutCanceled}>
         CANCLE
       </Button>
-      <Button btnType='Success' Clicked>
+      <Button btnType='Success' clicked={checkOutContinued}>
         CONTINUE
       </Button>
     </div>
