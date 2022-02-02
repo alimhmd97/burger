@@ -7,7 +7,7 @@ function navigationItems() {
         burger builder
       </NavigatioItem>
 
-      <NavigatioItem link='/'>checkout</NavigatioItem>
+      <NavigatioItem link='/checkout'>checkout</NavigatioItem>
     </ul>
   );
 }
