@@ -52,6 +52,7 @@ const BurgerBuilder = ({ children, history, match }) => {
         encodeURIComponent(i) + "=" + encodeURIComponent(ingredients[i])
       );
     }
+    queryParams.push("totalPrice" + "=" + totalPrice);
 
     const queryString = queryParams.join("&");
     history.navigate(`/checkout?${queryString}`);
