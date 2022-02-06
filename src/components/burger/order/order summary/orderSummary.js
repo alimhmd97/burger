@@ -1,5 +1,5 @@
-import Aux from "../../HOC/Auxx";
-import Button from "../../Ui/button/button";
+import Aux from "../../../HOC/Auxx";
+import Button from "../../../Ui/button/button";
 function OrderSummary({
   ingredients,
   cancelPurchase,

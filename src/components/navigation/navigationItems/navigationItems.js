@@ -3,11 +3,11 @@ import NavigatioItem from "./navigationItem";
 function navigationItems() {
   return (
     <ul className={styles.NavigationItems}>
-      <NavigatioItem link='/' active={true}>
+      <NavigatioItem URL='/' active={true}>
         burger builder
       </NavigatioItem>
 
-      <NavigatioItem link='/checkout'>checkout</NavigatioItem>
+      <NavigatioItem URL='/orders'>ORDERS</NavigatioItem>
     </ul>
   );
 }

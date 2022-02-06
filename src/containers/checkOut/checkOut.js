@@ -39,7 +39,7 @@ function CheckOut({ history }) {
   const checkOutContinuedHandler = () => {
     history.navigate("/checkout/contact-data");
   };
-  console.log(Route);
+  // console.log(Route);
   return (
     <div>
       <CheckOutSummary

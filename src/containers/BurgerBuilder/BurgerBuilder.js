@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import BuildControls from "../../components/burger/buildControls/buildControls";
 import Modal from "../../components/Ui/modal/modal";
 import Burger from "../../components/burger/burger";
-import OrderSummary from "../../components/burger/order summary/orderSummary";
+import OrderSummary from "../../components/burger/order/order summary/orderSummary";
 import Aux from "../../components/HOC/Auxx";
 import axios from "../../axios-orders";
 import Spinner from "../../components/Ui/spinner/spinner";
@@ -17,7 +17,7 @@ const BurgerBuilder = ({ children, history, match }) => {
     totalPrice: 0,
     purchasable: false,
     purchase: false,
-    loading: false,
+    loading: true,
   });
 
   const ingredientPrice = {
@@ -31,21 +31,7 @@ const BurgerBuilder = ({ children, history, match }) => {
 
   const PurchaseContinueHandler = () => {
     // setState((state) => ({ ...state, loading: true }));
-    // const order = {
-    //   ingredients: ingredients,
-    //   name: "Ali Mohamed",
-    //   adress: {
-    //     street: "testStreet",
-    //     zipCode: "54512",
-    //     country: "Egypt",
-    //   },
-    //   email: "aliiimhmddd99@gmail.com",
-    //   delivaryMethod: "fastest",
-    // };
-    // axios
-    //   .post("/orders.json", order)
-    //   .then((res) => setState((state) => ({ ...state, loading: false })))
-    //   .catch((err) => setState((state) => ({ ...state, loading: true })));
+
     const queryParams = [];
     for (let i in ingredients) {
       queryParams.push(
@@ -120,9 +106,10 @@ const BurgerBuilder = ({ children, history, match }) => {
       .get("ingredients.json")
       .then((res) => {
         setState((state) => ({ ...state, ingredients: res.data }));
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((err) => alert(err));
+    setState((state) => ({ ...state, loading: false }));
   }, []);
 
   let orderSummary = useMemo(
