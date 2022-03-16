@@ -4,33 +4,8 @@ import { Route, Routes } from "react-router-dom";
 import { CheckOutSummary } from "../../components/checkOutSunmmary/checkOutSummary";
 import { withRouter } from "../../components/HOC/withRouter/withRouter";
 import ContactData from "./contactData/contactData";
-
-function CheckOut({ history }) {
-  const [mounted, setMounted] = useState(false);
-
-  const [ingredients, setingredients] = useState({});
-  const [totalPrice, setTotalPrice] = useState(0);
-  if (!mounted) {
-    let query = window.location.search.slice(1).split("&");
-    let ingredientsColection = [];
-    query.map((elem) => {
-      if (elem.includes("totalPrice")) {
-        let price = elem.slice(elem.indexOf("=") + 1);
-
-        setTotalPrice(price);
-      } else {
-        ingredientsColection.push(elem.split("="));
-      }
-    });
-    // console.log(y);
-    const ingredient = {};
-    ingredientsColection.map((element) => {
-      ingredient[element[0]] = +element[1];
-    });
-    setingredients({ ...ingredient });
-    setMounted(true);
-  }
-
+import { connect } from "react-redux";
+function CheckOut({ history, ingredients }) {
   useEffect(() => {}, []);
 
   const checkOutCanceledHandler = () => {
@@ -51,13 +26,17 @@ function CheckOut({ history }) {
         <Route
           path={"/checkout/contact-data"}
           element={
-            <ContactData ingredients={ingredients} totalPrice={totalPrice} />
+            <ContactData />
           }
         />
       </Routes> */}
-      {<ContactData ingredients={ingredients} totalPrice={totalPrice} />}
+      {<ContactData />}
     </div>
   );
 }
-
-export default withRouter(CheckOut);
+const mapStateToProps = (state) => {
+  return {
+    ingredients: state.ingredients,
+  };
+};
+export default connect(mapStateToProps)(withRouter(CheckOut));

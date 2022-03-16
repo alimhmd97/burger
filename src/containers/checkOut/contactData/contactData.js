@@ -5,6 +5,7 @@ import axios from "../../../axios-orders";
 import { withRouter } from "../../../components/HOC/withRouter/withRouter";
 import Spinner from "../../../components/Ui/spinner/spinner";
 import Input from "../../../components/Ui/input/input";
+import { connect } from "react-redux";
 
 function ContactData({ ingredients, totalPrice, history }) {
   const [loading, setloading] = useState(false);
@@ -222,5 +223,11 @@ function ContactData({ ingredients, totalPrice, history }) {
     </div>
   );
 }
+const mapStateToProps = (state) => {
+  return {
+    ingredients: state.ingredients,
+    totalPrice: state.totalPrice,
+  };
+};
 
-export default withRouter(ContactData);
+export default connect(mapStateToProps)(withRouter(ContactData));
