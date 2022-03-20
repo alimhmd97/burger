@@ -1,4 +1,4 @@
-import { actionTypes } from "../actions";
+import { actionTypes } from "../actions/burgerBuilder";
 const initialState = {
   ingredients: {
     bacon: 0,
