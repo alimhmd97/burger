@@ -9,7 +9,12 @@ import { createStore } from "redux";
 import { Reducer } from "./store/reducers";
 function App() {
   return (
-    <Provider store={createStore(Reducer)}>
+    <Provider
+      store={createStore(
+        Reducer,
+        window.__REDUX_DEVTOOLS_EXTENSION__ &&
+          window.__REDUX_DEVTOOLS_EXTENSION__()
+      )}>
       <Layout>
         <Routes>
           <Route path='/' element={<BurgerBuilder />} />
