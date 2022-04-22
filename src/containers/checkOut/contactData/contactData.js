@@ -7,7 +7,7 @@ import Spinner from "../../../components/Ui/spinner/spinner";
 import Input from "../../../components/Ui/input/input";
 import { connect } from "react-redux";
 
- let formIsValid = true;
+let formIsValid = false;
 
 function ContactData({ ingredients, totalPrice, history }) {
   const [loading, setloading] = useState(false);
@@ -102,10 +102,7 @@ function ContactData({ ingredients, totalPrice, history }) {
     orderFormArray.map((orderFormArrayElement, i) => {
       formData[orderFormArrayElement.id] = orderFormArrayElement.value;
       formData[orderFormArrayElement.id] = orderFormArrayElement.value;
-      // formData["valid"] = checkValidty(
-      //   orderFormArrayElement.value,
-      //   orderFormArrayElement.validation
-      // );
+    
     });
     order = { ...formData, ingredients, totalPrice };
   };
@@ -122,7 +119,7 @@ function ContactData({ ingredients, totalPrice, history }) {
 
     history.navigate("/");
   };
- 
+
   const inputChangeHandler = (e, inputIdintfier) => {
     e.preventDefault();
 
@@ -172,26 +169,23 @@ function ContactData({ ingredients, totalPrice, history }) {
         value: e.target.value,
       }));
     }
+    formIsValid = true;
     orderFormArray.map((elem) => {
-      // console.log(formIsValid);
       formIsValid = elem.valid && formIsValid;
     });
   };
+
   const checkValidty = (value, rules) => {
     let isValid = true;
     if (rules.required) {
       isValid = value?.trim() !== "" && isValid;
-      // console.log("require", isValid);
     }
     if (rules.minLength) {
       isValid = value?.length >= rules.minLength && isValid;
-      // console.log("minLength", isValid);
     }
     if (rules.maxLength) {
       isValid = value?.length <= rules.maxLength && isValid;
-      // console.log("MaxLength", value.length);
     }
-    // console.log("isvalid" + isValid);
     return isValid;
   };
   return (
@@ -215,7 +209,7 @@ function ContactData({ ingredients, totalPrice, history }) {
             );
           })}
 
-          <Button btnType='Success' disabled={formIsValid}>
+          <Button btnType='Success' disabled={!formIsValid}>
             ORDER
           </Button>
         </form>
