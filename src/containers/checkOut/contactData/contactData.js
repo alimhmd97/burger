@@ -7,6 +7,8 @@ import Spinner from "../../../components/Ui/spinner/spinner";
 import Input from "../../../components/Ui/input/input";
 import { connect } from "react-redux";
 
+ let formIsValid = true;
+
 function ContactData({ ingredients, totalPrice, history }) {
   const [loading, setloading] = useState(false);
   const formData = {};
@@ -120,7 +122,7 @@ function ContactData({ ingredients, totalPrice, history }) {
 
     history.navigate("/");
   };
-  let formIsValid = true;
+ 
   const inputChangeHandler = (e, inputIdintfier) => {
     e.preventDefault();
 
